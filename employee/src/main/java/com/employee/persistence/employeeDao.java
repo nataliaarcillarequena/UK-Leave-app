@@ -9,14 +9,22 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
-public interface employeeDao extends JpaRepository<employee, Long> {
+public interface employeeDao extends JpaRepository<employee, Integer> {
 
     @Modifying
     @Transactional
     @Query(value = "insert into employee values(:empNo, :pass, :fullName, :squad, :role, :location, :startDate, :deployedDate, :leaveEntitlement", nativeQuery = true)
-    public int insertSalesRecord(@Param("empNo") int empNo, @Param("fullName") String fullName, @Param("squad") String squad, @Param("role") String role, @Param("location") String location,
+    public int insertEmployee(@Param("empNo") int empNo, @Param("fullName") String fullName, @Param("squad") String squad, @Param("role") String role, @Param("location") String location,
                                  @Param("startDate") LocalDate startDate, @Param("deployedDate") LocalDate deployedDate, @Param("leaveEntitlement") int leaveEntitlemnt);
 
+
+    @Modifying
+    @Transactional
+    @Query("delete from employee where empNo = :id")
+    public int deleteEmployee(@Param("id")int empNo);
+
+    public employee searchEmployeeByEmpNo(int empNo);
 }
