@@ -18,9 +18,10 @@ public interface EmployeeDao extends JpaRepository<Employee, Integer> {
 	
 	@Modifying
     @Transactional
-    @Query(value = "insert into employee values(:empNo, :pass, :fullName, :squad, :role, :location, :startDate, :deployedDate, :leaveEntitlement, :managerId", nativeQuery = true)
-    public int insertSalesRecord(@Param("empNo") int empNo, @Param("fullName") String fullName, @Param("squad") String squad, @Param("role") String role, @Param("location") String location,
-                                 @Param("startDate") LocalDate startDate, @Param("deployedDate") LocalDate deployedDate, @Param("leaveEntitlement") int leaveEntitlemnt, @Param("managerId") int manaId);
+    @Query(value = "insert into employee values(:empNo, :pass, :fullName, :squad, :role, :location, :startDate, :deployedDate, :leaveEntitlement, :managerId)", nativeQuery = true)
+    public int insertEmployee(@Param("empNo") int empNo,@Param("pass") String pass, @Param("fullName") String fullName, @Param("squad") String squad,@Param("role")String role, @Param("location") String location,
+                                 @Param("startDate") LocalDate startDate, @Param("deployedDate") LocalDate deployedDate, @Param("leaveEntitlement") int leaveEntitlment, @Param("managerId") int manaId);
+	
 	
 	//updating the employees password
 	@Modifying
@@ -31,6 +32,7 @@ public interface EmployeeDao extends JpaRepository<Employee, Integer> {
 	//finds and returns the employee record by employee number 
 	public Optional<Employee> findById(int empNo);
 	
-	
+	//get the employee record by employee number
+	//public Employee searchEmployeeBy(int empNo);
 	
 }

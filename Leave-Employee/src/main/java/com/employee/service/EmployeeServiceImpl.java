@@ -1,8 +1,10 @@
 package com.employee.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +75,47 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String getRoleByEmpNumber(int empNumb) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	//gets all the employees
+	@Override
+	public List<Employee> getAllEmployees() {
+		return employeeDao.findAll();
+	}
+
+	/*
+	 * insert employee into DB
+	 * Nat: changed the functionality a bit- if adding a new employee
+	 * then emp Number can come through blank (0) whereby we assign the employee number (max Emp Nu in DB + 1)
+	 * otherwise the employee number comes through in the Employee object (e.g. when initiallly putting in the 
+	 * employee records into the DB) 
+	 */
+	@Override
+	public boolean insertEmployee(Employee emp) {
+		List<Employee> allEmps = employeeDao.findAll(Sort.by(Sort.Direction.DESC, "empNo"));
+        int lastEmpId = allEmps.get(0).getEmpNo();
+        
+        //changed here
+        if(emp.getEmpNo()==0)
+        	emp.setEmpNo(lastEmpId + 1);
+
+        
+        
+        try {
+        	//insert method is not doing its thing
+            //employeeDao.insertEmployee(emp.getEmpNo(), null, emp.getFullname(), emp.getSquad(), emp.getRole(), 
+            //		emp.getLocation(), emp.getStartDate(), emp.getDeployedDate(), emp.getLeaveEntitlment(), emp.getManagerEmpNo());
+        	
+        	//making sure to catch unique records being inserted into the DB 
+        	if(employeeDao.findById(emp.getEmpNo()).isPresent()) {
+        		return false;
+        	}else {
+        		employeeDao.save(emp);
+        		return true;
+        	}
+        } catch (Exception e){
+            return false;
+        }
 	}
 
 }

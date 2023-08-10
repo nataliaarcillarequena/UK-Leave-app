@@ -23,7 +23,7 @@ public class Employee {
 	 private String location;
 	 private LocalDate startDate;
 	 private LocalDate deployedDate;
-	 private int leaveEntitlemnt;
+	 private int leaveEntitlment;
 	 private int managerEmpNo;
 	
 }
