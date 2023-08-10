@@ -14,12 +14,19 @@ import java.util.List;
 @Repository
 public interface employeeDao extends JpaRepository<employee, Integer> {
 
+/*
     @Modifying
     @Transactional
     @Query(value = "insert into employee values(:empNo, :pass, :fullName, :squad, :role, :location, :startDate, :deployedDate, :leaveEntitlement", nativeQuery = true)
     public int insertEmployee(@Param("empNo") int empNo, @Param("fullName") String fullName, @Param("squad") String squad, @Param("role") String role, @Param("location") String location,
                                  @Param("startDate") LocalDate startDate, @Param("deployedDate") LocalDate deployedDate, @Param("leaveEntitlement") int leaveEntitlemnt);
+*/
 
+    @Modifying
+    @Transactional
+    @Query(value = "insert into employee values(:empNo, :pass, :fullName, :squad, :role, :location, :startDate, :deployedDate, :leaveEntitlement, :managerEmpNo)", nativeQuery = true)
+    public int insertEmployee(@Param("empNo") int empNo,@Param("pass") String pass, @Param("fullName") String fullName, @Param("squad") String squad,@Param("role")String role, @Param("location") String location,
+                              @Param("startDate") LocalDate startDate, @Param("deployedDate") LocalDate deployedDate, @Param("leaveEntitlement") int leaveEntitlment, @Param("managerEmpNo") int managerEmpNo);
 
     @Modifying
     @Transactional

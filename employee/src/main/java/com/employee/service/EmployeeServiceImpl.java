@@ -4,8 +4,13 @@ import com.employee.entity.employee;
 import com.employee.persistence.employeeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -23,15 +28,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         emp.setEmpNo(lastEmpId + 1);
 
         try {
-            employeeDao.insertEmployee(emp.getEmpNo(), emp.getFullname(), emp.getSquad(), emp.getRole(), emp.getLocation(), emp.getStartDate(), emp.getDeployedDate(), emp.getLeaveEntitlemnt());
+            employeeDao.insertEmployee(emp.getEmpNo(), emp.getPass(), emp.getFullname(), emp.getSquad(), emp.getRole(), emp.getLocation(), emp.getStartDate(), emp.getDeployedDate(), emp.getLeaveEntitlemnt(), emp.getManagerEmpNo());
             return true;
         } catch (Exception e){
             return false;
         }
     }
 
+
     @Override
     public boolean DeleteEmployee(int empNo) {
+
         return employeeDao.deleteEmployee(empNo)>0;
     }
 

@@ -23,6 +23,7 @@ public class employeeResource {
     @RequestMapping(path = "employees", method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE,
     consumes = MediaType.APPLICATION_JSON_VALUE)
     public String addEmployee(@RequestBody employee emp){
+        System.out.println(emp.);
         if(employeeService.insertEmployee(emp)){
             return "Employee added";
         }else{

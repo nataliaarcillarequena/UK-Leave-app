@@ -27,5 +27,5 @@ public class employee {
     private LocalDate startDate;
     private LocalDate deployedDate;
     private int LeaveEntitlemnt;
-    //private int managerEmpNo;
+    private int managerEmpNo;
 }
