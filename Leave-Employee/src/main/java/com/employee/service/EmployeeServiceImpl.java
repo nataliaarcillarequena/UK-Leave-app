@@ -92,30 +92,26 @@ public class EmployeeServiceImpl implements EmployeeService {
 	 */
 	@Override
 	public boolean insertEmployee(Employee emp) {
-		List<Employee> allEmps = employeeDao.findAll(Sort.by(Sort.Direction.DESC, "empNo"));
-        int lastEmpId = allEmps.get(0).getEmpNo();
+		
+		//Checking for when employees dataset is empty 
+		if(!employeeDao.findAll().isEmpty()) {
+			List<Employee> allEmps = employeeDao.findAll(Sort.by(Sort.Direction.DESC, "empNo"));
+			int lastEmpId = allEmps.get(0).getEmpNo();
         
-        //changed here
-        if(emp.getEmpNo()==0)
-        	emp.setEmpNo(lastEmpId + 1);
-
-        
-        
-        try {
-        	//insert method is not doing its thing
-            //employeeDao.insertEmployee(emp.getEmpNo(), null, emp.getFullname(), emp.getSquad(), emp.getRole(), 
-            //		emp.getLocation(), emp.getStartDate(), emp.getDeployedDate(), emp.getLeaveEntitlment(), emp.getManagerEmpNo());
-        	
-        	//making sure to catch unique records being inserted into the DB 
-        	if(employeeDao.findById(emp.getEmpNo()).isPresent()) {
+			//changed here
+			if(emp.getEmpNo()==0)
+				emp.setEmpNo(lastEmpId + 1);
+			
+			if(employeeDao.findById(emp.getEmpNo()).isPresent()) {
         		return false;
         	}else {
         		employeeDao.save(emp);
         		return true;
         	}
-        } catch (Exception e){
-            return false;
-        }
+		}else {
+			employeeDao.save(emp);
+			return true;
+		}
 	}
 
 }

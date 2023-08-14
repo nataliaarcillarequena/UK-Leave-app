@@ -2,12 +2,13 @@ package com.user.service;
 
 import java.util.List;
 
+import com.user.entity.AuthEmployee;
 import com.user.entity.Employee;
 
 public interface UserService {
 	
 	/*login/user authentication service*/
-	String authEmpCheck(int empNo, String pass);
+	AuthEmployee authEmpCheck(int empNo, String pass);
 	
 	/*user registration or use asks for renewing password*/
 	Boolean renewPassword(int empNo, String pass);

@@ -16,7 +16,8 @@ import com.user.entity.Employee;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired RestTemplate restTemplate;
+	@Autowired 
+	RestTemplate restTemplate;
 
 	/*
 	 * returns the result from the users login attempt:
@@ -25,10 +26,10 @@ public class UserServiceImpl implements UserService {
 	 * 3. employee Id exists but password is wrong = "Incorrect Password"
 	 */
 	@Override
-	public String authEmpCheck(int empNo, String pass) {
+	public AuthEmployee authEmpCheck(int empNo, String pass) {
 		
 		AuthEmployee authEmployee = restTemplate.getForObject("http://localhost:8081/employee/"+empNo+"/"+pass, AuthEmployee.class);
-		return authEmployee.getAuthStatus();
+		return authEmployee;
 	}
 
 	/*
@@ -52,7 +53,6 @@ public class UserServiceImpl implements UserService {
 	/*
 	 * returns a list of all the records in the employee dataset
 	 * admin is able to see all employees on a screen 
-	 * INFO: STILL TO TEST
 	 */
 	@Override
 	public List<Employee> allEmployees() {
