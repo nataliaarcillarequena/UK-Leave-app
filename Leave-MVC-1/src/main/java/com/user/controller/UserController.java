@@ -18,6 +18,14 @@ public class UserController {
 	UserService userService;
 	
 	/*
+	 * FRONT END: pages and model attributes and objects that need to be pulled through
+	 * 1. "Login" page with "user" model (where user inputs) and "message" object which gives the login message
+	 * 2. "Menu" page - with objects "employee" and "message"
+	 * 3. "RegistrationPage" page - with object "message"
+	 */
+	
+	
+	/*
 	 * method to authenticate the user when user inputs their employee number and password
 	 * and presses the login button
 	 * users inputs from screen stored in model "user"
@@ -48,6 +56,40 @@ public class UserController {
 		//gives the message on whether emp has successfully logged in or not- on the appropriate screen
 		//menu screen if authenticated user and Login screen if not
 		modelAndView.addObject("message", authStatus);
+		
+		return modelAndView;
+	}
+	
+	/*
+	 * "RegistrationPage"; registration page/ forgot password page with empty fields for the user
+	 * to input- accessed from "Login" page 
+	 */
+	@RequestMapping("/passRenewalPage")
+	public ModelAndView registrationSetUp() {
+		
+		return new ModelAndView("RegistrationPage", "user", new Employee());
+	}
+	
+	/*
+	 * On the registration/forgotten password page:
+	 * method for employee to update their password- whether logging
+	 * into the system for the first time (registration) or forgetting their
+	 * password
+	 * password is not updated when invalid employee numb is provided
+	 * when password successfully updated, return to the login page and success
+	 * message is displayed
+	 */
+	@RequestMapping("/register")
+	public ModelAndView passwordRenewal(@ModelAttribute("user") Employee user) {
+		
+		ModelAndView modelAndView = new ModelAndView();
+		if(userService.renewPassword(user.getEmpNo(), user.getPass())) {
+			modelAndView.setViewName("Login");
+			modelAndView.addObject("message", "Password update successful. Please login.");
+		}else {
+			modelAndView.setViewName("RegistrationPage");
+			modelAndView.addObject("message", "No such employee number exists. Please try again or contact admin.");
+		}
 		
 		return modelAndView;
 	}
